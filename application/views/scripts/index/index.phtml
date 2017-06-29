@@ -1,43 +1,88 @@
-<style>
-    a:link,
-    a:visited
-    {
-        color: #0398CA;
-    }
 
-    span#zf-name
-    {
-        color: #91BE3F;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    div#welcome
-    {
-        color: #FFFFFF;
-        background-image: url(http://framework.zend.com/images/bkg_header.jpg);
-        width:  600px;
-        height: 400px;
-        border: 2px solid #444444;
-        overflow: hidden;
-        text-align: center;
-    }
+    <title>Starter Template for Bootstrap</title>
 
-    div#more-information
-    {
-        background-image: url(http://framework.zend.com/images/bkg_body-bottom.gif);
-        height: 100%;
-    }
-</style>
-<div id="welcome">
-    <h1>Welcome to the <span id="zf-name">Zend Framework!</span></h1>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <h3>This is your project's main page</h3>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
 
-    <div id="more-information">
-        <p><img src="http://framework.zend.com/images/PoweredBy_ZF_4LightBG.png" /></p>
-        <p>
-            Helpful Links: <br />
-            <a href="http://framework.zend.com/">Zend Framework Website</a> |
-            <a href="http://framework.zend.com/manual/en/">Zend Framework Manual</a>
-        </p>
+<body>
+
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
+
+    <a class="navbar-brand" href="#">Do it!</a>
+</nav>
+
+<div class="container">
+
+    <div>
+        <input type="number" class="from_count" />
+        <select name="cur_from" class="cur_from">
+            <?php
+
+            echo $this->partialLoop('partials/currencies.phtml', $this->currencies);
+            ?>
+        </select>
+
+        <span>To</span>
+
+        <select name="cur_to" class="cur_to">
+            <?php
+
+            echo $this->partialLoop('partials/currencies.phtml', $this->currencies);
+            ?>
+        </select>
+        <input type="number" class="res" />
+
+        <button class="btn btn-primary send">Go</button>
     </div>
-</div>
+
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+
+    $('.send').on('click', function(){
+
+        var from = $('.cur_from').val();
+        var from_count = $('.from_count').val();
+        var to = $('.cur_to').val();
+
+        $.ajax({
+            url:'/index/calculate',
+            method:'post',
+            data:{
+                from:from,
+                from_count:from_count,
+                to:to
+            }
+        }).done(function(r){
+
+            $('.res').val(r.res);
+        });
+    });
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
