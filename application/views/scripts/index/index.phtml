@@ -10,7 +10,9 @@
     <title>Starter Template for Bootstrap</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/css/min.css" />
 
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl.'/css/main.css');?>
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
@@ -25,23 +27,31 @@
 <div class="container">
 
     <div>
-        <input type="number" class="from_count" />
+
+        <div class="history_data">
+            <?php
+                echo $this->partialLoop('partials/history.phtml', $this->history);
+            ?>
+        </div>
+
         <select name="cur_from" class="cur_from">
             <?php
 
-            echo $this->partialLoop('partials/currencies.phtml', $this->currencies);
+                echo $this->partialLoop('partials/currencies.phtml', $this->currencies);
             ?>
         </select>
+        <input type="number" class="from_count" />
 
         <span>To</span>
+
+        <input type="number" class="res" />
 
         <select name="cur_to" class="cur_to">
             <?php
 
-            echo $this->partialLoop('partials/currencies.phtml', $this->currencies);
+                echo $this->partialLoop('partials/currencies.phtml', $this->currencies);
             ?>
         </select>
-        <input type="number" class="res" />
 
         <button class="btn btn-primary send">Go</button>
     </div>
@@ -72,6 +82,14 @@
             }
         }).done(function(r){
 
+            var history = '';
+
+            $.each(r.history, function(index, val){
+
+                history += '<p>'+ val.currency_in +' => ' + val.currency_out + ' : ' + val.result;
+            });
+
+            $('.history_data').html(history);
             $('.res').val(r.res);
         });
     });

@@ -18,6 +18,7 @@
       <modelsDirectory>
         <dbTableDirectory>
           <dbTableFile dbTableName="Currencies"/>
+          <dbTableFile dbTableName="History"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>

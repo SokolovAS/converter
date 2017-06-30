@@ -14,6 +14,8 @@ class IndexController extends Zend_Controller_Action
     {
         $model = new Application_Model_DbTable_Currencies();
 
+        $history = new Application_Model_DbTable_History();
+
 //        $xmlData = file_get_contents('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange');
 //        $xml = simplexml_load_string($xmlData);
 
@@ -23,11 +25,12 @@ class IndexController extends Zend_Controller_Action
 //            if($i > 20){
 //                break;
 //            }
-//            $model->addCurrency($val->r030, $val->txt, $val->rate, $val->cc, date('Y-m-d', strtotime($val->exchangedate)));
+//            $model->add($val->r030, $val->txt, $val->rate, $val->cc, date('Y-m-d', strtotime($val->exchangedate)));
 //            $i++;
 //        }
 
         $this->view->currencies = $model->fetchAll();
+        $this->view->history = $history->getLast();
     }
 
     public function calculateAction()
@@ -45,17 +48,18 @@ class IndexController extends Zend_Controller_Action
             $numerator = $from_count ? $from_count * $from['rate']: $from['rate'];
 
             $res = $numerator / $to['rate'];
+            $res = number_format($res, 2);
 
-            $this->_helper->json(['res' => round($res, 2), 'success' => true]);
+            $history = new Application_Model_DbTable_History();
+
+            $last_deals = $history->getLast();
+
+            $history->add($from['id'], $to['id'], $res);
+
+            $this->_helper->json(['res' => $res, 'success' => true, 'history' => $last_deals]);
         }
         $this->_helper->json(['success' => false, 'msg' => 'error']);
     }
-
-    public function addAction()
-    {
-        // action body
-    }
-
 
 }
 

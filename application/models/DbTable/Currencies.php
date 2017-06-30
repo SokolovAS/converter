@@ -5,8 +5,10 @@ class Application_Model_DbTable_Currencies extends Zend_Db_Table_Abstract
 
     protected $_name = 'currencies';
 
+    protected $_dependentTables = array('Application_Model_DbTable_History');
 
-    public function addCurrency($r030, $txt, $rate, $cc, $exchange_date)
+
+    public function add($r030, $txt, $rate, $cc, $exchange_date)
     {
         $this->insert([
             'r030' => $r030,
