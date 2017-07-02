@@ -1,6 +1,5 @@
 <?php
 
-use application\models\ParseData;
 
 class IndexController extends Zend_Controller_Action
 {
@@ -24,13 +23,11 @@ class IndexController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
 
             $data = $this->getRequest()->getPost();
-
             $model = new Application_Model_DbTable_Currencies();
 
             if(! $model->cache()->test('is_actual')){
 
                 $model->updateAll();
-
             }
 
             $from = $model->getOne($data['from']);

@@ -34,26 +34,6 @@ class Application_Model_DbTable_Currencies extends Zend_Db_Table_Abstract
         $xmlData = file_get_contents('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange');
         $xml = simplexml_load_string($xmlData);
         return $xml->currency;
-
-//        try{
-//
-//            $i = 0;
-//            foreach($xml->currency as $val){
-//
-//                if($i > 20) break;
-//
-//                $this->add($val->r030, $val->txt, $val->rate, $val->cc, date('Y-m-d', strtotime($val->exchangedate)));
-//
-//                $i++;
-//            }
-//
-//            return true;
-//
-//        }catch(\Exception $e){
-//
-//            return $e->getMessage();
-//        }
-
     }
 
     public function cache()

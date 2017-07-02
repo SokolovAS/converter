@@ -1,7 +1,18 @@
+body{
+    min-height: 500px;
+    height: 1px;
+}
 .container{
     position: relative;
-    top: -30%;
-    left: 18%;
-    padding-top: 18%;
+    top: 20%;
+    margin: auto;
+    width: 600px;
+    padding: 10px;
+}
+
+.error_message{
+    position: relative;
+    left: 60px;
+    color: red;
 }
 

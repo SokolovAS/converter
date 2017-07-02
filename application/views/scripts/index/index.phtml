@@ -27,13 +27,11 @@
 <div class="container">
 
     <div>
-
         <div class="history_data">
             <?php
                 echo $this->partialLoop('partials/history.phtml', $this->history);
             ?>
         </div>
-
         <select name="cur_from" class="cur_from">
             <?php
 
@@ -41,6 +39,7 @@
             ?>
         </select>
         <input type="number" class="from_count" />
+
 
         <span>To</span>
 
@@ -55,8 +54,13 @@
 
         <button class="btn btn-primary send">Go</button>
     </div>
+    <div class="error_message">
+        <span></span>
+    </div>
 
-</div><!-- /.container -->
+</div>
+
+
 
 
 <!-- Bootstrap core JavaScript
@@ -64,37 +68,8 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script>
-
-    $('.send').on('click', function(){
-
-        var from = $('.cur_from').val();
-        var from_count = $('.from_count').val();
-        var to = $('.cur_to').val();
-
-        $.ajax({
-            url:'/index/calculate',
-            method:'post',
-            data:{
-                from:from,
-                from_count:from_count,
-                to:to
-            }
-        }).done(function(r){
-
-            var history = '';
-
-            $.each(r.history, function(index, val){
-
-                history += '<p>'+ val.currency_in +' => ' + val.currency_out + ' : ' + val.result;
-            });
-
-            $('.history_data').html(history);
-            $('.res').val(r.res);
-        });
-    });
-
-</script>
+<?php echo $this->headScript()
+    ->appendFile($this->baseUrl().'/js/main.js');?>
 </body>
 </html>
 
